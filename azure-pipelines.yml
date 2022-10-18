@@ -5,6 +5,8 @@ trigger:
       - release
       - master
 
+
+      
 pr:
   branches:
     include:
