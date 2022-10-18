@@ -5,6 +5,7 @@ trigger:
       - release
       - master
 
+      
 pr:
   branches:
     include:
@@ -13,6 +14,7 @@ pr:
   paths:
     exclude:
     - docs
+  drafts: false
 
 stages:
   - stage: serverBuild
