@@ -21,7 +21,7 @@ stages:
         steps:
           - checkout: self
             persistCredentials: true
-            fetchDepth: 1
+            fetchDepth: 0
 
           - task: gittools.gitversion.gitversion-task.GitVersion@4
             displayName: Generate version number using GitVersion
