@@ -10,7 +10,11 @@ stages:
     displayName: "Server Build"
     dependsOn: []
     pool:
-      vmImage: "ubuntu-latest"
+      name: Breakpoint
+      demands:
+        - yarn
+        - msbuild
+        - visualstudio
     jobs:
       - job: DevOpsBuild
         displayName: "DevOps Build"
