@@ -5,6 +5,15 @@ trigger:
       - release
       - master
 
+pr:
+  branches:
+    include:
+    - develop
+    - master
+  paths:
+    exclude:
+    - docs
+
 stages:
   - stage: serverBuild
     displayName: "Server Build"
@@ -15,7 +24,7 @@ stages:
         - yarn
         - msbuild
         - visualstudio
-        
+
     jobs:
       - job: DevOpsBuild
         displayName: "DevOps Build"
