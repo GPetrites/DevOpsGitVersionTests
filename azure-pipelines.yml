@@ -4,9 +4,7 @@ trigger:
       - develop
       - release
       - master
-
-
-      
+     
 pr:
   branches:
     include:
@@ -17,6 +15,7 @@ pr:
     - docs
   drafts: false
 
+  
 stages:
   - stage: serverBuild
     displayName: "Server Build"
