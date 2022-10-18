@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - release
+      - master
+
+stages:
+  - stage: serverBuild
+    displayName: "Server Build"
+    dependsOn: []
+    pool:
+      vmImage: 'windows-latest'
+    jobs:
+      - job: DevOpsBuild
+        displayName: "DevOps Build"
+        steps:
+          - checkout: self
+            persistCredentials: true
+            fetchDepth: 1
+
+          - task: GitVersion@5
+            inputs:
+              runtime: 'core'
+
+          - task: UpdateBuildNumber@0
+            displayName: Update Build Number
+            inputs:
+              buildNumber: DevOpsGitVersionTests $(Build.BuildNumber)
+
+          - task: ATP.ATP-GitTag.GitTag.GitTag@5
+            displayName: Create version tag in git for master builds
+            inputs:
+              tag: $(GitVersion.SemVer)
+              forceTagCreation: true
+              useLightweightTags: true
+            condition: eq(variables['Build.SourceBranchName'], 'master')
