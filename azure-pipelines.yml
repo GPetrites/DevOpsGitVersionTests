@@ -10,7 +10,7 @@ stages:
     displayName: "Server Build"
     dependsOn: []
     pool:
-      vmImage: "windows-latest"
+      vmImage: "ubuntu-latest"
     jobs:
       - job: DevOpsBuild
         displayName: "DevOps Build"
