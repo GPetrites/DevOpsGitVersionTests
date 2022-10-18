@@ -1,0 +1,55 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - release
+      - master
+
+
+      
+pr:
+  branches:
+    include:
+    - develop
+    - master
+  paths:
+    exclude:
+    - docs
+  drafts: false
+
+stages:
+  - stage: serverBuild
+    displayName: "Server Build"
+    dependsOn: []
+    pool:
+      name: Breakpoint
+      demands:
+        - yarn
+        - msbuild
+        - visualstudio
+
+    jobs:
+      - job: DevOpsBuild
+        displayName: "DevOps Build"
+        steps:
+          - checkout: self
+            persistCredentials: true
+            fetchDepth: 0
+
+          - task: gittools.gitversion.gitversion-task.GitVersion@4
+            displayName: Generate version number using GitVersion
+            inputs:
+              updateAssemblyInfo: false
+
+          - task: UpdateBuildNumber@0
+            displayName: Update Build Number
+            inputs:
+              buildNumber: DevOpsGitVersionTests $(Build.BuildNumber)
+
+          - task: ATP.ATP-GitTag.GitTag.GitTag@5
+            displayName: Create version tag in git for master builds
+            inputs:
+              tag: $(GitVersion.SemVer)
+              forceTagCreation: true
+              useLightweightTags: true
+            condition: eq(variables['Build.SourceBranchName'], 'master')
