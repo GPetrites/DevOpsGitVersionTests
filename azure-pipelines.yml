@@ -14,7 +14,6 @@ pr:
     exclude:
     - docs
   drafts: false
-
   
 stages:
   - stage: serverBuild
