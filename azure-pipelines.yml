@@ -19,17 +19,10 @@ stages:
             persistCredentials: true
             fetchDepth: 1
 
-          - task: gitversion/setup@0
-            displayName: Install GitVersion
+          - task: gittools.gitversion.gitversion-task.GitVersion@5
+            displayName: GitVersion
             inputs:
-              versionSpec: "5.x"
-
-          - task: gitversion/execute@0
-            displayName: Determine Version
-            inputs:
-              useConfigFile: true
-              configFilePath: "GitVersion.yml"
-            name: version
+              configFilePath: 'GitVersion.yml'
 
           - task: UpdateBuildNumber@0
             displayName: Update Build Number
